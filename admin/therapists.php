@@ -387,7 +387,7 @@ $extraScripts = '<script>
     let selectedGalleryFiles = [];
     
     // Main image preview functionality
-    document.querySelector("input[name=\"main_image\"]").addEventListener("change", function(e) {
+    document.querySelector("input[name=\'main_image\']").addEventListener("change", function(e) {
         const file = e.target.files[0];
         const previewSection = document.getElementById("mainImagePreview");
         const previewImg = document.getElementById("mainImagePreviewImg");
@@ -405,7 +405,7 @@ $extraScripts = '<script>
     });
     
     // Gallery image preview functionality
-    document.querySelector("input[name=\"gallery_images[]\"]").addEventListener("change", function(e) {
+    document.querySelector("input[name=\'gallery_images[]\']").addEventListener("change", function(e) {
         const files = Array.from(e.target.files);
         selectedGalleryFiles = files;
         updateGalleryPreview();
@@ -461,7 +461,7 @@ $extraScripts = '<script>
     }
     
     function updateFileInput() {
-        const fileInput = document.querySelector("input[name=\"gallery_images[]\"]");
+        const fileInput = document.querySelector("input[name=\'gallery_images[]\']");
         const dt = new DataTransfer();
         
         selectedGalleryFiles.forEach(file => {
@@ -493,7 +493,7 @@ $extraScripts = '<script>
                     if (data.therapist.main_image) {
                         const mainImagePreview = document.getElementById("mainImagePreview");
                         const mainImagePreviewImg = document.getElementById("mainImagePreviewImg");
-                        mainImagePreviewImg.src = "<?php echo UPLOAD_URL; ?>therapists/" + data.therapist.main_image;
+                        mainImagePreviewImg.src = "' . UPLOAD_URL . 'therapists/" + data.therapist.main_image;
                         mainImagePreview.style.display = "block";
                     }
                     
@@ -501,7 +501,7 @@ $extraScripts = '<script>
                     showExistingImages(data.therapist.id);
                     
                     // Check services
-                    const checkboxes = document.querySelectorAll("input[name=\"services[]\"]");
+                    const checkboxes = document.querySelectorAll("input[name=\'services[]\']");
                     checkboxes.forEach(cb => cb.checked = false);
                     data.services.forEach(service => {
                         const checkbox = document.getElementById("service" + service.id);
@@ -529,7 +529,7 @@ $extraScripts = '<script>
                         imageItem.style.cssText = "width: 100px; height: 100px;";
                         
                         imageItem.innerHTML = `
-                            <img src="<?php echo UPLOAD_URL; ?>${image.image_path}" 
+                            <img src="' . UPLOAD_URL . '${image.image_path}" 
                                  class="img-thumbnail" 
                                  style="width: 100%; height: 100%; object-fit: cover;">
                             <button type="button" 
@@ -539,7 +539,7 @@ $extraScripts = '<script>
                                     title="Remove image">
                                 ×
                             </button>
-                            ${image.is_main ? '<span class="badge bg-primary position-absolute bottom-0 start-0" style="font-size: 8px;">Main</span>' : ''}
+                            ${image.is_main ? \'<span class="badge bg-primary position-absolute bottom-0 start-0" style="font-size: 8px;">Main</span>\' : \'\'}
                         `;
                         
                         existingImagesContainer.appendChild(imageItem);
