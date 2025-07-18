@@ -75,7 +75,7 @@
                                 <li><a class="dropdown-item" href="logout.php">
                                     <i class="bi bi-box-arrow-right me-2"></i>Logout
                                 </a></li>
-                            </ul>
+                            <p><a href="tel:+917005120041">+91 7005120041</a><br>Available 9 AM - 8 PM<br>7 Days a Week</p>
                         </div>
                     <?php else: ?>
                         <button class="btn btn-link p-0" onclick="openMobileLoginModal()">

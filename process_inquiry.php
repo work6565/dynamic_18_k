@@ -93,6 +93,9 @@ try {
         // Send notification email
         $emailSent = sendInquiryNotification($emailData);
         
+        // Log email attempt for debugging
+        error_log("Inquiry notification email attempt - Inquiry ID: " . $result['lead_id'] . ", Email sent: " . ($emailSent ? 'Yes' : 'No'));
+        
         echo json_encode([
             'success' => true, 
             'message' => 'Your inquiry has been sent successfully! We will contact you soon.' . ($emailSent ? ' Notification sent.' : ''),

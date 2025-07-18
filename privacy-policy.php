@@ -74,7 +74,7 @@ $pageTitle = 'Privacy Policy';
                     <p>If you have any questions about this Privacy Policy, please contact us at:</p>
                     <ul>
                         <li>Email: info@hammammensspa.com</li>
-                        <li>Phone: +91 9560656913</li>
+                        <li>Phone: +91 7005120041</li>
                         <li>Address: A-35 Block A2, Rajouri Garden New Delhi, 110027</li>
                     </ul>
                 </div>

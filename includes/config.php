@@ -23,8 +23,8 @@ define('RAZORPAY_ENABLED', false); // Set to false to disable payments
 // Email configuration (for future use)
 define('SMTP_HOST', 'localhost');
 define('SMTP_PORT', 587);
-define('SMTP_USER', 'noreply@boyztown.in');
-define('SMTP_PASS', '');
+define('SMTP_USER', 'karanchourasia2017@gmail.com');
+define('SMTP_PASS', 'your-app-password'); // Replace with actual app password
 
 // Security settings
 define('SESSION_TIMEOUT', 3600); // 1 hour

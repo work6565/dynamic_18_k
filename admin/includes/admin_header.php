@@ -89,6 +89,11 @@
                             <i class="bi bi-people-fill me-2"></i>Users
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'test_email.php' ? 'active' : ''; ?>" href="test_email.php">
+                            <i class="bi bi-envelope-check me-2"></i>Test Email
+                        </a>
+                    </li>
                 </ul>
             </div>
         </aside>

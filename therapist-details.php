@@ -114,6 +114,7 @@ $pageTitle = $therapist['name'] . ' - Therapist Details';
                             <i class="bi bi-whatsapp me-2"></i>WhatsApp
                         </button>
                         <button class="btn btn-info" onclick="window.location.href='tel:+919560656913'">
+                        <button class="btn btn-info" onclick="window.location.href='tel:+917005120041'">
                             <i class="bi bi-telephone me-2"></i>Call Now
                         </button>
                     </div>

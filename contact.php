@@ -58,7 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 $emailSent = sendContactNotification($emailData);
             
-                $message = 'Thank you for your message! We will get back to you soon.' . ($emailSent ? ' Notification sent.' : '');
+                // Log email attempt for debugging
+                error_log("Contact form notification email attempt - Email sent: " . ($emailSent ? 'Yes' : 'No'));
+                
+                $message = 'Thank you for your message! We will get back to you soon.' . ($emailSent ? ' Notification sent.' : ' Please note: Email notification may be delayed.');
             $messageType = 'success';
             
             // Clear form data
@@ -177,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         <div class="contact-details">
                             <h5>Call Us</h5>
-                            <p><a href="tel:+919876543210">+91 9560656913</a><br>Available 9 AM - 8 PM<br>7 Days a Week</p>
+                            <p><a href="tel:+917005120041">+91 7005120041</a><br>Available 9 AM - 8 PM<br>7 Days a Week</p>
                         </div>
                     </div>
                     

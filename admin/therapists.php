@@ -330,6 +330,22 @@ $services = getAllServices();
                                 <h6 class="fw-bold">Selected Images:</h6>
                                 <div id="galleryPreviewContainer" class="d-flex flex-wrap gap-2"></div>
                             </div>
+                            
+                            <!-- Existing Images Preview (for editing) -->
+                            <div id="existingImagesPreview" class="mt-3" style="display: none;">
+                                <h6 class="fw-bold">Current Images:</h6>
+                                <div id="existingImagesContainer" class="d-flex flex-wrap gap-2"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Main Image Preview -->
+                        <div class="col-12">
+                            <div id="mainImagePreview" class="mt-3" style="display: none;">
+                                <h6 class="fw-bold">Main Image Preview:</h6>
+                                <div class="position-relative d-inline-block">
+                                    <img id="mainImagePreviewImg" src="" class="img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -369,6 +385,24 @@ $services = getAllServices();
 <?php 
 $extraScripts = '<script>
     let selectedGalleryFiles = [];
+    
+    // Main image preview functionality
+    document.querySelector("input[name=\"main_image\"]").addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        const previewSection = document.getElementById("mainImagePreview");
+        const previewImg = document.getElementById("mainImagePreviewImg");
+        
+        if (file && file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewSection.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewSection.style.display = "none";
+        }
+    });
     
     // Gallery image preview functionality
     document.querySelector("input[name=\"gallery_images[]\"]").addEventListener("change", function(e) {
@@ -455,6 +489,17 @@ $extraScripts = '<script>
                     document.getElementById("therapistAvailability").value = data.therapist.availability_slots || "";
                     document.getElementById("therapistStatus").value = data.therapist.status;
                     
+                    // Show main image preview if exists
+                    if (data.therapist.main_image) {
+                        const mainImagePreview = document.getElementById("mainImagePreview");
+                        const mainImagePreviewImg = document.getElementById("mainImagePreviewImg");
+                        mainImagePreviewImg.src = "<?php echo UPLOAD_URL; ?>therapists/" + data.therapist.main_image;
+                        mainImagePreview.style.display = "block";
+                    }
+                    
+                    // Show existing gallery images
+                    showExistingImages(data.therapist.id);
+                    
                     // Check services
                     const checkboxes = document.querySelectorAll("input[name=\"services[]\"]");
                     checkboxes.forEach(cb => cb.checked = false);
@@ -466,6 +511,76 @@ $extraScripts = '<script>
                     new bootstrap.Modal(document.getElementById("therapistModal")).show();
                 }
             });
+    }
+    
+    function showExistingImages(therapistId) {
+        fetch("get_therapist_images.php?id=" + therapistId)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.images.length > 0) {
+                    const existingImagesSection = document.getElementById("existingImagesPreview");
+                    const existingImagesContainer = document.getElementById("existingImagesContainer");
+                    
+                    existingImagesContainer.innerHTML = "";
+                    
+                    data.images.forEach(image => {
+                        const imageItem = document.createElement("div");
+                        imageItem.className = "position-relative";
+                        imageItem.style.cssText = "width: 100px; height: 100px;";
+                        
+                        imageItem.innerHTML = `
+                            <img src="<?php echo UPLOAD_URL; ?>${image.image_path}" 
+                                 class="img-thumbnail" 
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                            <button type="button" 
+                                    class="btn btn-danger btn-sm position-absolute top-0 end-0" 
+                                    style="width: 20px; height: 20px; padding: 0; font-size: 10px; line-height: 1;"
+                                    onclick="removeExistingImage(${image.id})"
+                                    title="Remove image">
+                                ×
+                            </button>
+                            ${image.is_main ? '<span class="badge bg-primary position-absolute bottom-0 start-0" style="font-size: 8px;">Main</span>' : ''}
+                        `;
+                        
+                        existingImagesContainer.appendChild(imageItem);
+                    });
+                    
+                    existingImagesSection.style.display = "block";
+                } else {
+                    document.getElementById("existingImagesPreview").style.display = "none";
+                }
+            })
+            .catch(error => {
+                console.error("Error loading existing images:", error);
+            });
+    }
+    
+    function removeExistingImage(imageId) {
+        if (confirm("Are you sure you want to remove this image?")) {
+            fetch("remove_therapist_image.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ image_id: imageId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reload existing images
+                    const therapistId = document.getElementById("therapistId").value;
+                    if (therapistId) {
+                        showExistingImages(therapistId);
+                    }
+                } else {
+                    alert("Error removing image: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error removing image");
+            });
+        }
     }
     
     function deleteTherapist(id, name) {
@@ -485,6 +600,12 @@ $extraScripts = '<script>
         selectedGalleryFiles = [];
         document.getElementById("galleryPreview").style.display = "none";
         document.getElementById("galleryPreviewContainer").innerHTML = "";
+        
+        // Reset main image preview
+        document.getElementById("mainImagePreview").style.display = "none";
+        
+        // Reset existing images preview
+        document.getElementById("existingImagesPreview").style.display = "none";
     });
 </script>';
 

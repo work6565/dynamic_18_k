@@ -41,7 +41,7 @@
                     </div>
                     <div class="mb-3">
                         <i class="bi bi-telephone me-2 text-primary"></i>
-                        <span class="text-muted">+91 9560656913</span>
+                        <span class="text-muted">+91 7005120041</span>
                     </div>
                     <div class="mb-3">
                         <i class="bi bi-envelope me-2 text-primary"></i>

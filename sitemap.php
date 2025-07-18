@@ -96,7 +96,7 @@ $pageTitle = 'Sitemap';
                     </h5>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a href="<?php echo SITE_URL; ?>/sitemap.php" class="text-decoration-none">Sitemap</a></li>
-                        <li class="mb-2"><a href="tel:+919560656913" class="text-decoration-none">Call Support</a></li>
+                        <li class="mb-2"><a href="tel:+917005120041" class="text-decoration-none">Call Support</a></li>
                         <li class="mb-2"><a href="mailto:info@hammammensspa.com" class="text-decoration-none">Email Support</a></li>
                     </ul>
                 </div>

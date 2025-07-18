@@ -143,6 +143,9 @@ try {
         // Send notification email
         $emailSent = sendBookingNotification($emailData);
         
+        // Log email attempt for debugging
+        error_log("Booking notification email attempt - Booking ID: " . $result['booking_id'] . ", Email sent: " . ($emailSent ? 'Yes' : 'No'));
+        
         // Send confirmation email
         sendBookingConfirmation($result['booking_id']);
         

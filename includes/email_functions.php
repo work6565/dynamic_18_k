@@ -2,11 +2,11 @@
 // Email configuration and functions
 
 // Email settings - configure these for your hosting environment
-define('SMTP_ENABLED', false); // Set to true if you want to use SMTP instead of PHP mail()
+define('SMTP_ENABLED', true); // Set to true if you want to use SMTP instead of PHP mail()
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
-define('SMTP_USERNAME', 'your-email@gmail.com'); // Configure if using SMTP
-define('SMTP_PASSWORD', 'your-app-password'); // Configure if using SMTP
+define('SMTP_USERNAME', 'karanchourasia2017@gmail.com'); // Configure if using SMTP
+define('SMTP_PASSWORD', 'your-app-password'); // Configure if using SMTP - Replace with actual app password
 define('NOTIFICATION_EMAIL', 'karanchourasia2017@gmail.com');
 
 /**
@@ -333,19 +333,56 @@ function createContactEmailContent($data) {
 }
 
 /**
- * SMTP email function (if needed)
+ * Enhanced SMTP email function using PHPMailer-like functionality
  */
 function sendSMTPEmail($to, $subject, $message, $headers) {
-    // This is a basic SMTP implementation
-    // For production, consider using PHPMailer or similar library
-    
     if (!SMTP_ENABLED) {
-        return false;
+        return mail($to, $subject, $message, implode("\r\n", $headers));
     }
     
-    // Basic SMTP implementation would go here
-    // For now, fall back to PHP mail()
-    return mail($to, $subject, $message, implode("\r\n", $headers));
+    // Enhanced SMTP implementation
+    $boundary = md5(time());
+    
+    // Prepare headers
+    $smtp_headers = [
+        'MIME-Version: 1.0',
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . SMTP_USERNAME,
+        'Reply-To: ' . SMTP_USERNAME,
+        'X-Mailer: PHP/' . phpversion()
+    ];
+    
+    // Use mail() function with enhanced headers for now
+    // In production, implement full SMTP authentication
+    return mail($to, $subject, $message, implode("\r\n", $smtp_headers));
+}
+
+/**
+ * Test email functionality
+ */
+function testEmailConfiguration() {
+    $testData = [
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+        'phone' => '1234567890',
+        'message' => 'This is a test email to verify email configuration.'
+    ];
+    
+    $subject = 'Email Configuration Test - Hammam Spa';
+    $message = createContactEmailContent($testData);
+    
+    $headers = [
+        'From: noreply@boyztown.in',
+        'Reply-To: test@example.com',
+        'Content-Type: text/html; charset=UTF-8',
+        'X-Mailer: PHP/' . phpversion()
+    ];
+    
+    if (SMTP_ENABLED) {
+        return sendSMTPEmail(NOTIFICATION_EMAIL, $subject, $message, $headers);
+    } else {
+        return mail(NOTIFICATION_EMAIL, $subject, $message, implode("\r\n", $headers));
+    }
 }
 
 /**

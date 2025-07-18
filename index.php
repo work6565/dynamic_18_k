@@ -383,7 +383,7 @@ $services = getAllServices();
                         <i class="bi bi-telephone-fill"></i>
                     </div>
                     <h5 class="fw-bold">Call Us</h5>
-                    <p class="text-muted">+91 9560656913<br>Available 9 AM - 8 PM<br>7 Days a Week</p>
+                    <p class="text-muted">+91 7005120041<br>Available 9 AM - 8 PM<br>7 Days a Week</p>
                 </div>
             </div>
             <div class="col-lg-4">
